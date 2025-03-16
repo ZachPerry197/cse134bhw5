@@ -65,32 +65,86 @@ document.addEventListener("DOMContentLoaded", function () {
         charCountDisplay.style.color = remaining < 20 ? (remaining < 5 ? "red" : "orange") : "black";
     });
 
-    form.addEventListener("submit", function (event) {
-        let newErrors = [];
 
+
+    form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+    
+        let newErrors = [];
+    
         if (!nameField.value.trim()) {
             newErrors.push({ field: "name", error: "Name is required." });
             flashField(nameField);
         }
-
+    
         if (!emailField.checkValidity()) {
             newErrors.push({ field: "email", error: "Invalid email format." });
             flashField(emailField);
         }
-
+    
         if (messageField.value.trim().length < 10) {
             newErrors.push({ field: "message", error: "Message must be at least 10 characters." });
             flashField(messageField);
         }
-
+    
         if (newErrors.length > 0) {
-            event.preventDefault();
             form_errors = form_errors.concat(newErrors);
             formErrorsField.value = JSON.stringify(form_errors);
             displayErrors();
+            return;
+        }
+        const formData = {
+            name: nameField.value.trim(),
+            email: emailField.value.trim(),
+            message: messageField.value.trim(),
+        };
+
+        const binId = "https://api.jsonbin.io/v3/b/67d730888561e97a50ed40da";
+        const masterKey = "$2a$10$9X/dqqMfiNn.YkTc8XAfwezKmFwYOOQKs7VnTQC6IUgZ3qWkCVj4m";
+
+        const response = await fetch(`${binId}`, {
+            headers: {
+                "X-Master-Key": masterKey,
+            }
+        });
+        if (!response.ok) {
+            console.error("Error fetching data from JSONBin:", response.statusText);
+            return;
+        }
+        const existingData = await response.json();
+        if (!existingData.record.formSubmissions) {
+            existingData.record.formSubmissions = [];
+        }
+        existingData.record.formSubmissions.push(formData);
+    
+        try {
+            const updateResponse = await fetch(`${binId}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-Master-Key": masterKey,
+                },
+                body: JSON.stringify(existingData.record),
+            });
+            
+            if (!updateResponse.ok) {
+                console.error("Error updating data in JSONBin:", updateResponse.statusText);
+            } else {
+                console.log("Form data successfully added to JSONBin!");
+            }
+    
+            nameField.value = "";
+            emailField.value = "";
+            messageField.value = "";
+    
+            showTemporaryMessage("Your message has been sent successfully!", errorOutput);
+    
+        } catch (error) {
+            console.error("Error sending data to JSONBin:", error);
+            showTemporaryMessage("There was an error sending your message. Please try again later.", errorOutput);
         }
     });
-
+    
     function showTemporaryMessage(msg, outputElement) {
         outputElement.textContent = msg;
         setTimeout(() => (outputElement.textContent = ""), 2000);
