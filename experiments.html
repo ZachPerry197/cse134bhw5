@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Experimental Playground</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body { font-family: Arial, sans-serif; }
+    </style>
+    <script>console.log("Hello World");</script>
+    <title>Semantic Custom Element Example</title>
+    <style>
+        custom-info {
+            display: block;
+            background: #f0f8ff;
+            border: 2px solid #008cba;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        custom-info h2 {
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body class="js-enabled">
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Back to Home</a></li>
+            </ul>
+        </nav>
+        <button id="theme-toggle" class="theme-toggle">🌞</button>
+        <h2>Experimental Playground</h2>
+    </header>
+    <main>
+        <section>
+            <p><strong>Hello!</strong> My name is <em>Zach</em>, and this is my portfolio website.</p>
+            <aside>
+                <p>Quick Info: <abbr title="Hypertext Markup Language">HTML</abbr> stands for Hypertext Markup Language.</p>
+            </aside>
+            <figure>
+                <img src="images/profile.jpg" alt="Profile Picture" height="300" width="300">
+                <figcaption>Snuffles</figcaption>
+            </figure>
+            <blockquote>
+                <p>"This is Snuffles"</p>
+                <cite>- Zach</cite>
+            </blockquote>
+            <hr>
+            <pre><code>console.log("Hello world!");</code></pre>
+            <details>
+                <summary>More about me</summary>
+                <p>I am a human being.</p>
+            </details>
+            <table>
+                <caption>This is a caption</caption>
+                <tr>
+                    <th>Header 1</th>
+                    <th>Header 2</th>
+                </tr>
+                <tr>
+                    <td>Cell 1</td>
+                    <td>Cell 2</td>
+                    <td>Cell 3</td>
+                    <td>Cell 4</td>
+                </tr>
+            </table>
+            <dl>
+                <dt>HTML</dt>
+                <dd>A markup language for structuring web content.</dd>
+            </dl>
+            <audio controls>
+                <source src="audio.mp3" type="audio/mpeg">
+                You should see an audio element.
+            </audio>
+            <video controls>
+                <source src="video.mp4" type="video/mp4">
+                You should see a video element.
+            </video>
+            <canvas id="Canvas1" width="200" height="100" style="border:1px solid #21c745;"></canvas>
+            <script>
+                const canvas = document.getElementById('Canvas1');
+                const ctx = canvas.getContext('2d');
+                ctx.fillStyle = 'green';
+                ctx.fillRect(10, 10, 150, 75);
+            </script>
+            <p>
+                This is an inline icon: 
+                <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="10" cy="10" r="8" stroke="black" stroke-width="2" fill="blue" />
+                </svg>
+                next to some text.
+              </p>
+            <iframe src="https://example.com"></iframe>
+            <noscript>This browser does not support JavaScript.</noscript>
+            <dialog open>
+                <p>Hi there!</p>
+                <button onclick="this.parentElement.close()">Close</button>
+            </dialog>
+        </section>
+
+        <custom-info>
+            <h2>Weeeee custom semantic element</h2>
+        </custom-info-info>
+
+        <section id="extras">
+            <h2>Extra Elements Playground</h2>
+            <div>
+                <span>This is a span inside a div.<br>Here's a line break above.</span>
+                <p>Here is some <b>bold text</b> and some <i>italic text</i>.</p>
+            </div>
+            <picture>
+                <source srcset="images/profile.jpg" type="image/jpeg">
+                <img src="images/profile.jpg" alt="Fallback Image" height="100" width="100">
+            </picture>
+            <ol>
+                <li>Ordered item 1</li>
+                <li>Ordered item 2</li>
+            </ol>
+            <form>
+                <label for="search">Search:</label>
+                <search id="search" placeholder="Search..."></search>
+            </form>
+            <p>
+                <label for="datalistInput">Choose an option:</label>
+                <input type="text" id="datalistInput" list="optionsList">
+            </p>
+            <datalist id="optionsList">
+                <option value="Option 1">
+                <option value="Option 2">
+            </datalist>
+            <p>
+                <label for="groupedOptions">Grouped Options:</label>
+                <select name="groupedOptions" id="groupedOptions">
+                    <optgroup label="Group 1">
+                        <option value="A">Option A</option>
+                        <option value="B">Option B</option>
+                    </optgroup>
+                    <optgroup label="Group 2">
+                        <option value="C">Option C</option>
+                        <option value="D">Option D</option>
+                    </optgroup>
+                </select>
+            </p>
+            <template id="myTemplate">
+                <p>This is template content.</p>
+            </template>
+            <table border="1">
+                <colgroup>
+                    <col style="background-color: #f2f2f2;">
+                    <col style="background-color: #fff;">
+                </colgroup>
+                <tr>
+                    <td>Data 1</td>
+                    <td>Data 2</td>
+                </tr>
+            </table>
+            <p><ins>Inserted text</ins> and <del>deleted text</del>.</p>
+            <hgroup>
+                <h2>Grouped Heading</h2>
+                <h3>Subheading</h3>
+            </hgroup>
+            <p>This is a definition: <dfn title="HTML is the language of the web.">HTML</dfn></p>
+            <p>Press <kbd>Ctrl</kbd> + <kbd>C</kbd> to copy.</p>
+        </section>
+        <hello-world></hello-world>
+        <script>
+            class HelloWorld extends HTMLElement {
+            connectedCallback() {
+                console.log("Hello world!");
+            }
+            }
+            customElements.define('hello-world', HelloWorld);
+        </script>
+    </main>
+    <footer>
+        <p>Footer: Zach Perry zperry@ucsd.edu</p>
+    </footer>
+    <script src="script.js" defer></script>
+</body>
+</html>

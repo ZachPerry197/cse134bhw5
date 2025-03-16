@@ -1,0 +1,48 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Back to Home</a></li>
+            </ul>
+        </nav>
+        <h1>Contact Information</h1>
+    </header>
+    <main>
+        <section>
+            <h2>Zachary M. Perry</h2>
+            <h2>+1 (619)-922-2613</h2>
+            <h2>zperry@ucsd.edu</h2>
+            
+            <form action="https://httpbin.org/post" method="POST">
+                <fieldset>
+                    <legend>Contact Me</legend>
+            
+                    <label for="name">Name: <span aria-hidden="true">*</span></label>
+                    <input type="text" id="name" name="name" required minlength="2" maxlength="50" pattern="[A-Za-z\s]+" title="Only letters and spaces allowed">
+            
+                    <label for="email">Email: <span aria-hidden="true">*</span></label>
+                    <input type="email" id="email" name="email" required>
+            
+                    <label for="message">Message: <span aria-hidden="true">*</span></label>
+                    <textarea id="message" name="message" required minlength="5" maxlength="500"></textarea>
+            
+                    <output class="error-message"></output>
+                    <output class="info-message"></output>
+            
+                    <input type="hidden" name="form-errors" value="">
+            
+                    <button type="submit">Send</button>
+                </fieldset>
+            </form>
+        </section>
+    </main>
+    <script src="script.js" defer></script>
+</body>
+</html>
