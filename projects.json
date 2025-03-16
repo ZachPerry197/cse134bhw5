@@ -1,14 +1,14 @@
 [
     {
-        "title": "Bioinformatics Research Assistant",
-        "image": "bioinformatics.jpg",
-        "description": "Bioinformatics research project here at UCSD.",
-        "link": "project1.html"
+      "title": "Bioinformatics Research Assistant",
+      "image": "bioinformatics.jpg",
+      "description": "Bioinformatics research project here at UCSD.",
+      "link": "project1.html"
     },
     {
-        "title": "Natural Language Processing Research Project",
-        "image": "disneyland_project.png",
-        "description": "Natural language processing project analyzing the sentiment of textual reviews.",
-        "link": "project2.html"
+      "title": "Natural Language Processing Research Project",
+      "image": "disneyland_project.png",
+      "description": "Natural language processing project analyzing the sentiment of textual reviews.",
+      "link": "project2.html"
     }
-]
+  ]

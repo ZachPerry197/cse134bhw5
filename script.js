@@ -104,13 +104,11 @@ class ProjectCard extends HTMLElement {
     }
 
     connectedCallback() {
-        // Fetch attributes from the element
         const title = this.getAttribute("title") || "Untitled Project";
         const imageSrc = this.getAttribute("image") || "placeholder.jpg";
         const description = this.getAttribute("description") || "No description available.";
         const link = this.getAttribute("link") || "#";
 
-        // Define the card's HTML structure
         this.shadowRoot.innerHTML = `
             <style>
                 :host {
@@ -171,20 +169,25 @@ customElements.define("project-card", ProjectCard);
 document.addEventListener("DOMContentLoaded", async function () {
     const projectContainer = document.getElementById("projects");
 
-    // Load from localStorage
-    let projects = JSON.parse(localStorage.getItem("projects")) || [];
+    projectContainer.innerHTML = "";  
 
-    // Grab additional projects from a JSON file
+    let projects = [];
+
     try {
         const response = await fetch("projects.json");
-        const jsonData = await response.json();
-        projects = [...projects, ...jsonData];
+        projects = await response.json();
     } catch (error) {
         console.error("Failed to fetch projects.json", error);
     }
 
-    // Fill the page with project cards
-    projects.forEach((project) => {
+    populateCards(projects);
+});
+
+function populateCards(data) {
+    const projectContainer = document.getElementById("projects");
+    projectContainer.innerHTML = "";
+
+    data.forEach((project) => {
         const card = document.createElement("project-card");
         card.setAttribute("title", project.title);
         card.setAttribute("image", project.image);
@@ -192,4 +195,42 @@ document.addEventListener("DOMContentLoaded", async function () {
         card.setAttribute("link", project.link);
         projectContainer.appendChild(card);
     });
-});
+}
+
+async function loadLocalData() {
+    try {
+        localStorage.removeItem("projects");
+
+        const response = await fetch("projects.json");
+        const jsonData = await response.json();
+
+        localStorage.setItem("projects", JSON.stringify(jsonData));
+
+        populateCards(jsonData);
+    } catch (error) {
+        console.error("Failed to load projects.json", error);
+    }
+}
+
+document.getElementById("loadLocal").addEventListener("click", loadLocalData);
+
+async function loadRemoteData() {
+    try {
+      const response = await fetch("https://api.jsonbin.io/v3/b/67d71aa28960c979a572ce7d", {
+        headers: { 
+          "X-Master-Key": "$2a$10$9X/dqqMfiNn.YkTc8XAfwezKmFwYOOQKs7VnTQC6IUgZ3qWkCVj4m"
+        }
+      });
+  
+      if (!response.ok) throw new Error("Network response was not OK");
+  
+      const result = await response.json();
+      const data = result.record;
+      populateCards(data);
+    } catch (error) {
+      console.error("Error fetching remote data:", error);
+    }
+  }
+
+document.getElementById("loadLocal").addEventListener("click", loadLocalData);
+document.getElementById("loadRemote").addEventListener("click", loadRemoteData);
