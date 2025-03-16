@@ -96,3 +96,100 @@ document.addEventListener("DOMContentLoaded", function () {
         setTimeout(() => (outputElement.textContent = ""), 2000);
     }
 });
+
+class ProjectCard extends HTMLElement {
+    constructor() {
+        super();
+        this.attachShadow({ mode: "open" });
+    }
+
+    connectedCallback() {
+        // Fetch attributes from the element
+        const title = this.getAttribute("title") || "Untitled Project";
+        const imageSrc = this.getAttribute("image") || "placeholder.jpg";
+        const description = this.getAttribute("description") || "No description available.";
+        const link = this.getAttribute("link") || "#";
+
+        // Define the card's HTML structure
+        this.shadowRoot.innerHTML = `
+            <style>
+                :host {
+                    --bg-color: #007bff;
+                    --text-color:rgb(174, 187, 236);
+                    --border-radius: 10px;
+                    --padding: 15px;
+                    --shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+                    display: block;
+                    max-width: 300px;
+                    box-shadow: var(--shadow);
+                    border-radius: var(--border-radius);
+                    background: var(--bg-color);
+                    padding: var(--padding);
+                    transition: transform 0.2s ease-in-out;
+                }
+
+                :host(:hover) {
+                    transform: scale(1.05);
+                }
+
+                h2 {
+                    font-size: 1.2em;
+                    color: var(--text-color);
+                    margin: 0;
+                }
+
+                picture img {
+                    width: 100%;
+                    border-radius: var(--border-radius);
+                }
+
+                p {
+                    font-size: 1em;
+                    color: var(--text-color);
+                }
+
+                a {
+                    display: inline-block;
+                    margin-top: 10px;
+                    text-decoration: none;
+                    color: blue;
+                    font-weight: bold;
+                }
+            </style>
+            <h2>${title}</h2>
+            <picture>
+                <img src="${imageSrc}" alt="${title}">
+            </picture>
+            <p>${description}</p>
+            <a href="${link}" target="_blank">Read More</a>
+        `;
+    }
+}
+
+customElements.define("project-card", ProjectCard);
+
+document.addEventListener("DOMContentLoaded", async function () {
+    const projectContainer = document.getElementById("projects");
+
+    // Load from localStorage
+    let projects = JSON.parse(localStorage.getItem("projects")) || [];
+
+    // Grab additional projects from a JSON file
+    try {
+        const response = await fetch("projects.json");
+        const jsonData = await response.json();
+        projects = [...projects, ...jsonData];
+    } catch (error) {
+        console.error("Failed to fetch projects.json", error);
+    }
+
+    // Fill the page with project cards
+    projects.forEach((project) => {
+        const card = document.createElement("project-card");
+        card.setAttribute("title", project.title);
+        card.setAttribute("image", project.image);
+        card.setAttribute("description", project.description);
+        card.setAttribute("link", project.link);
+        projectContainer.appendChild(card);
+    });
+});
