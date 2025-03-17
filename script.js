@@ -26,10 +26,12 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    let form_errors = JSON.parse(formErrorsField.value);
-    function flashField(field) {
-        field.classList.add("flash");
-        setTimeout(() => field.classList.remove("flash"), 300);
+    let form_errors = [];
+    try {
+        form_errors = JSON.parse(formErrorsField.value || "[]");
+    } catch (error) {
+        console.error("Error parsing form errors:", error);
+        form_errors = [];
     }
 
     function displayErrors() {

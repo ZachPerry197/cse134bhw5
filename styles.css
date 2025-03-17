@@ -207,36 +207,6 @@ footer {
     cursor: pointer;
 }
 
-@media (max-width: 768px) {
-    main {
-        grid-template-columns: 1fr;
-    }
-
-    #menu-toggle {
-        display: block;
-    }
-
-    nav ul {
-        display: none;
-    }
-
-    #nav-menu.active ul {
-        display: flex;
-        flex-direction: column;
-        padding: 1rem 0;
-    }
-}
-
-@media (max-width: 480px) {
-    body {
-        font-size: 0.9rem;
-    }
-    
-    h1 {
-        font-size: 1.5rem;
-    }
-}
-
 fieldset {
     border: none;
     display: flex;
